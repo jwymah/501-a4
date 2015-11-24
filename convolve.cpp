@@ -1,9 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sndfile.h>
+#include <iostream>
+
+using namespace std;
 
 int main()
 {
+	cout << "heelloOO!!" << endl;
     SNDFILE *sf;
     SF_INFO info;
     int num_channels;
