@@ -1,0 +1,2 @@
+g++ convolve.cpp -lsndfile
+http://ubuntuforums.org/showthread.php?t=968690
