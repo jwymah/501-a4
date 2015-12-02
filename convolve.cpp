@@ -7,9 +7,9 @@
 
 using namespace std;
 
-vector<short> soundData;
-vector<short> irData;
-vector<short> resultData;
+vector<double> soundData;
+vector<double> irData;
+vector<double> resultData;
 
 SNDFILE *sf;
 SF_INFO soundInfo;
@@ -21,7 +21,7 @@ int f,sr,c;
 int i,j;
 FILE *out;
 
-void getWavData(SF_INFO &info, vector<short> &data, const char *filename, const char *outfile) {
+void getWavData(SF_INFO &info, vector<double> &data, const char *filename, const char *outfile) {
 	/* Open the WAV file. */
 	info.format = 0;
 	sf = sf_open(filename, SFM_READ, &info);
@@ -52,7 +52,7 @@ void getWavData(SF_INFO &info, vector<short> &data, const char *filename, const 
 		for (j = 0; j < c; ++j)
 		{
 			fprintf(out, "%d ", buf[i + j]);
-			data.push_back(buf[i + j]);
+			data.push_back((double) buf[i + j] / 32767);
 		}
 		fprintf(out, "\n");
 	}
@@ -64,7 +64,7 @@ int main()
     
     /* Open the WAV file. */
 	cout << "\n";
-	getWavData(soundInfo, soundData, "tabla.wav", "data.out");
+	getWavData(soundInfo, soundData, "fluteDry.wav", "data.out");
 	cout << "\n";
 	getWavData(irInfo, irData, "irBIGHALL.wav", "imp.out");
 	cout << "\n";
@@ -87,20 +87,14 @@ int main()
     	resultData.push_back(0);
     }
 
-//    for (int j=0; i<irData.size(); j++)
-//    {
-//    	irData[j] /= 32767;
-//    }
-
     // one channel at a time?
-    for (int i=0; i<soundData.size(); i++)
+    for (int i=0; i<500000; i++)
     {
 //    	resultData[i] = soundData[i] * 1.0;
 //    	resultData[i] = irData[i] * 1.0;
     	for (int j=0; j<irData.size(); j++)
     	{
-    		resultData[i+j] += soundData[i] * (irData[j] / (float) 32767.0);
-//    		if (resultData[i+j] < soundData[i]) resultData[i+j] = 32767;
+    		resultData[i+j] += soundData[i] * irData[j];//(irData[j] / (float) 32767.0);
 //    		for (int k=0; k<channels; k++)
 //    		{
 //    			resultData[i+j+k] += soundData[i+k] * irData[j+k];
@@ -114,9 +108,9 @@ int main()
     cout << "resultData.size()" << resultData.size() << endl;
     for (int i=0; i<resultSize; i++)// soundInfo.channels)
     {
-    	if (resultData[i] > 32767) resultData[i] = 32767;
-    	if (resultData[i] < -32767) resultData[i] = -32767;
-        fwriteShortLSB(resultData[i], outputFileStream);
+    	if (resultData[i] < -1) resultData[i] = -1;
+		if (resultData[i] > 1) resultData[i] = 1;
+        fwriteShortLSB((short) (resultData[i]*32767), outputFileStream);
     }
 
     fclose(outputFileStream);
