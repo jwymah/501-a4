@@ -102,7 +102,7 @@ void four1(double* data, unsigned long nn)
 				j=i+mmax;
 				tempr = wr*data[j-1] - wi*data[j];
 				tempi = wr * data[j] + wi*data[j-1];
-				 
+
 				data[j-1] = data[i-1] - tempr;
 				data[j] = data[i] - tempi;
 				data[i-1] += tempr;
@@ -158,7 +158,7 @@ void four2(double* data, unsigned long nn)
 				j=i+mmax;
 				tempr = wr*data[j-1] - wi*data[j];
 				tempi = wr * data[j] + wi*data[j-1];
-				 
+
 				data[j-1] = data[i-1] - tempr;
 				data[j] = data[i] - tempi;
 				data[i-1] += tempr;

@@ -1,2 +1,6 @@
+Requires library lsndfile...
+on ubuntu:
+	sudo apt-get install libsndfile1-dev
+
 g++ convolve.cpp -lsndfile
 http://ubuntuforums.org/showthread.php?t=968690
