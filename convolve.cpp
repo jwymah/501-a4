@@ -206,7 +206,7 @@ int main()
     int maxSize = max(soundData.size(), irData.size());
     int pow2 = pow(2, (int) log2(maxSize) + 1); // how does not casting this to int cause four1(hcomplex to segfault?
     											// oh must be a rounding thing
-    int thatSize = 2 * pow2;
+    int thatSize = pow2 << 1;
 
     double *xcomplex = new double[thatSize];
     double *hcomplex = new double[thatSize];
@@ -218,11 +218,11 @@ int main()
     //even elements are real part, odds are imaginary part
     for (int i=0; i<soundData.size(); i++)
     {
-    	xcomplex[2*i] = soundData[i];
+    	xcomplex[i << 1] = soundData[i];
     }
     for (int i=0; i<irData.size(); i++)
     {
-    	hcomplex[2*i] = irData[i];
+    	hcomplex[i << 1] = irData[i];
     }
     cout << pow2 << endl;
     cout << thatSize << endl;
@@ -233,8 +233,8 @@ int main()
     double *ycomplex = new double[thatSize];
     for(int i=0; i<pow2; i++)
     {
-    	ycomplex[2*i] = (xcomplex[i] * hcomplex[i] + (-xcomplex[i+1] * hcomplex[i+1]));
-    	ycomplex[2*i+1] = (xcomplex[i+1] * hcomplex[i] + (-xcomplex[i] * hcomplex[i+1]));
+    	ycomplex[i << 1] = (xcomplex[i] * hcomplex[i] + (-xcomplex[i+1] * hcomplex[i+1]));
+    	ycomplex[(i << 1) +1] = (xcomplex[i+1] * hcomplex[i] + (-xcomplex[i] * hcomplex[i+1]));
     }
 
     four1(ycomplex, pow2);
