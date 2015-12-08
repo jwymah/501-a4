@@ -3,6 +3,7 @@
 #include <sndfile.h>
 #include <iostream>
 #include <vector>
+#include <string.h>
 #include "utils.cpp"
 
 using namespace std;
