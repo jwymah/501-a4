@@ -211,14 +211,9 @@ int main()
     double *xcomplex = new double[thatSize];
     double *hcomplex = new double[thatSize];
 
+    // hard coded 8 for size of double
     memset(xcomplex, 0, 8*thatSize);
     memset(hcomplex, 0, 8*thatSize);
-//    for (int i=0; i<thatSize; i++)
-//    {
-////    	 memset() causes segfault? should be more efficient
-//    	xcomplex[i] = 0.0;
-//    	hcomplex[i] = 0.0;
-//    }
 
     //even elements are real part, odds are imaginary part
     for (int i=0; i<soundData.size(); i++)
@@ -238,8 +233,8 @@ int main()
     double *ycomplex = new double[thatSize];
     for(int i=0; i<pow2; i++)
     {
-    	ycomplex[2*i] = (xcomplex[i] * hcomplex[i] - xcomplex[i+1] * hcomplex[i+1]);
-    	ycomplex[2*i+1] = (xcomplex[i+1] * hcomplex[i] - xcomplex[i] * hcomplex[i+1]);
+    	ycomplex[2*i] = (xcomplex[i] * hcomplex[i] + (-xcomplex[i+1] * hcomplex[i+1]));
+    	ycomplex[2*i+1] = (xcomplex[i+1] * hcomplex[i] + (-xcomplex[i] * hcomplex[i+1]));
     }
 
     four1(ycomplex, pow2);
@@ -248,7 +243,7 @@ int main()
     cout << "resultSize" << resultSize << endl;
 
     cout << "resultData.size()" << resultData.size() << endl;
-	for (int i=0; i<pow2; i++)// soundInfo.channels)
+	for (int i=0; i<pow2; i++)
     {
     	if (ycomplex[i] < -1) ycomplex[i] = -1;
 		if (ycomplex[i] > 1) ycomplex[i] = 1;
