@@ -1,0 +1,38 @@
++++++++++++++++++++++++++++++FFT without and optimizations+++++++++++++++++++++++++++
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 0.74% of 1.35 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]    100.0    0.03    1.32                 main [1]
+                0.75    0.09       2/2           four2(double*, unsigned long) [2]
+                0.39    0.05       1/1           four1(double*, unsigned long) [3]
+                0.01    0.02       2/2           getWavData(SF_INFO&, std::vector<double, std::allocator<double> >&, char const*, char const*) [6]
+                0.01    0.01 1153591/2307182     std::vector<double, std::allocator<double> >::push_back(double const&) [5]
+                0.00    0.00 1153598/1153842     std::vector<double, std::allocator<double> >::size() const [17]
+                0.00    0.00 1153591/1153591     std::vector<double, std::allocator<double> >::operator[](unsigned long) [18]
+                0.00    0.00 1048576/1048580     fwriteShortLSB(short, _IO_FILE*) [19]
+                0.00    0.00       1/62          unsigned long const& std::max<unsigned long>(unsigned long const&, unsigned long const&) [42]
+                0.00    0.00       1/1           writeWaveFileHeader(int, int, double, _IO_FILE*) [61]
+-----------------------------------------------
+                0.75    0.09       2/2           main [1]
+[2]     62.5    0.75    0.09       2         four2(double*, unsigned long) [2]
+                0.09    0.00 2095104/3142656     void std::swap<double>(double&, double&) [4]
+-----------------------------------------------
+                0.39    0.05       1/1           main [1]
+[3]     32.3    0.39    0.05       1         four1(double*, unsigned long) [3]
+                0.05    0.00 1047552/3142656     void std::swap<double>(double&, double&) [4]
+-----------------------------------------------
+                0.05    0.00 1047552/3142656     four1(double*, unsigned long) [3]
+                0.09    0.00 2095104/3142656     four2(double*, unsigned long) [2]
+[4]     10.4    0.14    0.00 3142656         void std::swap<double>(double&, double&) [4]
+-----------------------------------------------
+                0.01    0.01 1153591/2307182     getWavData(SF_INFO&, std::vector<double, std::allocator<double> >&, char const*, char const*) [6]
+                0.01    0.01 1153591/2307182     main [1]
+[5]      2.2    0.01    0.02 2307182         std::vector<double, std::allocator<double> >::push_back(double const&) [5]
+                0.00    0.02 2307121/2307182     void __gnu_cxx::__alloc_traits<std::allocator<double> >::construct<double>(std::allocator<double>&, double*, double const&) [8]
+                0.00    0.00      61/61          std::vector<double, std::allocator<double> >::_M_insert_aux(__gnu_cxx::__normal_iterator<double*, std::vector<double, std::allocator<double> > >, double const&) [10]
+                0.00    0.00      61/61          std::vector<double, std::allocator<double> >::end() [48]

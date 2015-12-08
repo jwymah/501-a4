@@ -62,7 +62,7 @@ void getWavData(SF_INFO &info, vector<double> &data, const char *filename, const
 // http://www.drdobbs.com/cpp/a-simple-and-efficient-fft-implementatio/199500857
 void four1(double* data, unsigned long nn)
 {
-	unsigned long n, mmax, m, j, istep, i;
+	unsigned long n, mmax, m, j, i;
 	double wtemp, wr, wpr, wpi, wi, theta;
 	double tempr, tempi;
 
@@ -88,7 +88,7 @@ void four1(double* data, unsigned long nn)
 	mmax=2;
 	while (n>mmax)
 	{
-		istep = mmax<<1;
+		mmax = mmax<<1;
 		theta = -(2*M_PI/mmax);
 		wtemp = sin(0.5*theta);
 		wpr = -2.0*wtemp*wtemp;
@@ -97,7 +97,7 @@ void four1(double* data, unsigned long nn)
 		wi = 0.0;
 		for (m=1; m < mmax; m += 2)
 		{
-			for (i=m; i <= n; i += istep)
+			for (i=m; i <= n; i += mmax)
 			{
 				j=i+mmax;
 				tempr = wr*data[j-1] - wi*data[j];
@@ -112,13 +112,12 @@ void four1(double* data, unsigned long nn)
 			wr += wr*wpr - wi*wpi;
 			wi += wi*wpr + wtemp*wpi;
 		}
-		mmax=istep;
 	}
 }
 
 void four2(double* data, unsigned long nn)
 {
-	unsigned long n, mmax, m, j, istep, i;
+	unsigned long n, mmax, m, j, i;
 	double wtemp, wr, wpr, wpi, wi, theta;
 	double tempr, tempi;
 
@@ -144,7 +143,7 @@ void four2(double* data, unsigned long nn)
 	mmax=2;
 	while (n>mmax)
 	{
-		istep = mmax<<1;
+		mmax = mmax<<1;
 		theta = (2*M_PI/mmax);
 		wtemp = sin(0.5*theta);
 		wpr = -2.0*wtemp*wtemp;
@@ -153,7 +152,7 @@ void four2(double* data, unsigned long nn)
 		wi = 0.0;
 		for (m=1; m < mmax; m += 2)
 		{
-			for (i=m; i <= n; i += istep)
+			for (i=m; i <= n; i += mmax)
 			{
 				j=i+mmax;
 				tempr = wr*data[j-1] - wi*data[j];
@@ -168,7 +167,6 @@ void four2(double* data, unsigned long nn)
 			wr += wr*wpr - wi*wpi;
 			wi += wi*wpr + wtemp*wpi;
 		}
-		mmax=istep;
 	}
 }
 
@@ -200,16 +198,9 @@ int main()
     	resultData.push_back(0);
     }
 
-    // one channel at a time?
-//    for (int i=0; i<500000; i++)
-//    {
-//    	for (int j=0; j<irData.size(); j++)
-//    	{
-//    		resultData[i+j] += soundData[i] * irData[j];
-//    	}
-//    }
+    // following https://github.com/acristea/cpsc501_4
+    // on how to prepare data for fourier xforms
 
-    //TODO use four1()
     int maxSize = max(soundData.size(), irData.size());
     int pow2 = pow(2, (int) log2(maxSize) + 1); // how does not casting this to int cause four1(hcomplex to segfault?
     											// oh must be a rounding thing
@@ -253,12 +244,8 @@ int main()
     cout << "resultSize" << resultSize << endl;
 
     cout << "resultData.size()" << resultData.size() << endl;
-//    for (int i=0; i<resultSize; i++)// soundInfo.channels)
 	for (int i=0; i<pow2; i++)// soundInfo.channels)
     {
-//    	if (resultData[i] < -1) resultData[i] = -1;
-//		if (resultData[i] > 1) resultData[i] = 1;
-//        fwriteShortLSB((short) (resultData[i]*32767), outputFileStream);
     	if (ycomplex[i] < -1) ycomplex[i] = -1;
 		if (ycomplex[i] > 1) ycomplex[i] = 1;
         fwriteShortLSB((short) (ycomplex[i]*32767), outputFileStream);
