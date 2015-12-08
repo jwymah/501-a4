@@ -62,7 +62,7 @@ void getWavData(SF_INFO &info, vector<double> &data, const char *filename, const
 // http://www.drdobbs.com/cpp/a-simple-and-efficient-fft-implementatio/199500857
 void four1(double* data, unsigned long nn)
 {
-	unsigned long n, mmax, m, j, i;
+	unsigned long n, mmax, m, j, istep, i;
 	double wtemp, wr, wpr, wpi, wi, theta;
 	double tempr, tempi;
 
@@ -88,7 +88,7 @@ void four1(double* data, unsigned long nn)
 	mmax=2;
 	while (n>mmax)
 	{
-		mmax = mmax<<1;
+		istep = mmax<<1;
 		theta = -(2*M_PI/mmax);
 		wtemp = sin(0.5*theta);
 		wpr = -2.0*wtemp*wtemp;
@@ -97,7 +97,7 @@ void four1(double* data, unsigned long nn)
 		wi = 0.0;
 		for (m=1; m < mmax; m += 2)
 		{
-			for (i=m; i <= n; i += mmax)
+			for (i=m; i <= n; i += istep)
 			{
 				j=i+mmax;
 				tempr = wr*data[j-1] - wi*data[j];
@@ -112,12 +112,13 @@ void four1(double* data, unsigned long nn)
 			wr += wr*wpr - wi*wpi;
 			wi += wi*wpr + wtemp*wpi;
 		}
+		mmax=istep;
 	}
 }
 
 void four2(double* data, unsigned long nn)
 {
-	unsigned long n, mmax, m, j, i;
+	unsigned long n, mmax, m, j, istep, i;
 	double wtemp, wr, wpr, wpi, wi, theta;
 	double tempr, tempi;
 
@@ -143,7 +144,7 @@ void four2(double* data, unsigned long nn)
 	mmax=2;
 	while (n>mmax)
 	{
-		mmax = mmax<<1;
+		istep = mmax<<1;
 		theta = (2*M_PI/mmax);
 		wtemp = sin(0.5*theta);
 		wpr = -2.0*wtemp*wtemp;
@@ -152,7 +153,7 @@ void four2(double* data, unsigned long nn)
 		wi = 0.0;
 		for (m=1; m < mmax; m += 2)
 		{
-			for (i=m; i <= n; i += mmax)
+			for (i=m; i <= n; i += istep)
 			{
 				j=i+mmax;
 				tempr = wr*data[j-1] - wi*data[j];
@@ -167,6 +168,7 @@ void four2(double* data, unsigned long nn)
 			wr += wr*wpr - wi*wpi;
 			wi += wi*wpr + wtemp*wpi;
 		}
+		mmax=istep;
 	}
 }
 
