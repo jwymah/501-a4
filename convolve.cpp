@@ -213,8 +213,9 @@ int main()
     double *hcomplex = new double[thatSize];
 
     // hard coded 8 for size of double
-    memset(xcomplex, 0, 8*thatSize);
-    memset(hcomplex, 0, 8*thatSize);
+    // or a left bit shift of 3 which 2^3 == 8
+    memset(xcomplex, 0, thatSize << 3);
+    memset(hcomplex, 0, thatSize << 3);
 
     //even elements are real part, odds are imaginary part
     for (int i=0; i<soundData.size(); i++)
@@ -248,6 +249,7 @@ int main()
     {
     	if (ycomplex[i] < -1) ycomplex[i] = -1;
 		if (ycomplex[i] > 1) ycomplex[i] = 1;
+		// 32767==2^15 - 1 because working with signed numbers
         fwriteShortLSB((short) (ycomplex[i]*32767), outputFileStream);
     }
 
