@@ -211,12 +211,14 @@ int main()
     double *xcomplex = new double[thatSize];
     double *hcomplex = new double[thatSize];
 
-    for (int i=0; i<thatSize; i++)
-    {
-//    	 memset() causes segfault? should be more efficient
-    	xcomplex[i] = 0.0;
-    	hcomplex[i] = 0.0;
-    }
+    memset(xcomplex, 0, 8*thatSize);
+    memset(hcomplex, 0, 8*thatSize);
+//    for (int i=0; i<thatSize; i++)
+//    {
+////    	 memset() causes segfault? should be more efficient
+//    	xcomplex[i] = 0.0;
+//    	hcomplex[i] = 0.0;
+//    }
 
     //even elements are real part, odds are imaginary part
     for (int i=0; i<soundData.size(); i++)
