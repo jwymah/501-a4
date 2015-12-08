@@ -205,7 +205,7 @@ int main()
     // on how to prepare data for fourier xforms
 
     int maxSize = max(soundData.size(), irData.size());
-    int pow2 = pow(2, (int) log2(maxSize) + 1); // how does not casting this to int cause four1(hcomplex to segfault?
+    int pow2 = 2 << ((int) log2(maxSize)); // how does not casting this to int cause four1(hcomplex to segfault?
     											// oh must be a rounding thing
     int thatSize = pow2 << 1;
 
