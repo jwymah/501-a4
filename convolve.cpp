@@ -116,6 +116,62 @@ void four1(double* data, unsigned long nn)
 	}
 }
 
+void four2(double* data, unsigned long nn)
+{
+	unsigned long n, mmax, m, j, istep, i;
+	double wtemp, wr, wpr, wpi, wi, theta;
+	double tempr, tempi;
+
+	// reverse-binary reindexing
+	n = nn<<1;
+	j=1;
+	for (i=1; i<n; i+=2)
+	{
+		if (j>i)
+		{
+			swap(data[j-1], data[i-1]);
+			swap(data[j], data[i]);
+		}
+		m = nn;
+		while (m>=2 && j>m) {
+			j -= m;
+			m >>= 1;
+		}
+		j += m;
+	};
+
+	// here begins the Danielson-Lanczos section
+	mmax=2;
+	while (n>mmax)
+	{
+		istep = mmax<<1;
+		theta = (2*M_PI/mmax);
+		wtemp = sin(0.5*theta);
+		wpr = -2.0*wtemp*wtemp;
+		wpi = sin(theta);
+		wr = 1.0;
+		wi = 0.0;
+		for (m=1; m < mmax; m += 2)
+		{
+			for (i=m; i <= n; i += istep)
+			{
+				j=i+mmax;
+				tempr = wr*data[j-1] - wi*data[j];
+				tempi = wr * data[j] + wi*data[j-1];
+				 
+				data[j-1] = data[i-1] - tempr;
+				data[j] = data[i] - tempi;
+				data[i-1] += tempr;
+				data[i] += tempi;
+			}
+			wtemp=wr;
+			wr += wr*wpr - wi*wpi;
+			wi += wi*wpr + wtemp*wpi;
+		}
+		mmax=istep;
+	}
+}
+
 int main()
 {
     
@@ -145,29 +201,67 @@ int main()
     }
 
     // one channel at a time?
-    for (int i=0; i<500000; i++)
+//    for (int i=0; i<500000; i++)
+//    {
+//    	for (int j=0; j<irData.size(); j++)
+//    	{
+//    		resultData[i+j] += soundData[i] * irData[j];
+//    	}
+//    }
+
+    //TODO use four1()
+    int maxSize = max(soundData.size(), irData.size());
+    int pow2 = pow(2, (int) log2(maxSize) + 1); // how does not casting this to int cause four1(hcomplex to segfault?
+    											// oh must be a rounding thing
+    int thatSize = 2 * pow2;
+
+    double *xcomplex = new double[thatSize];
+    double *hcomplex = new double[thatSize];
+
+    for (int i=0; i<thatSize; i++)
     {
-//    	resultData[i] = soundData[i] * 1.0;
-//    	resultData[i] = irData[i] * 1.0;
-    	for (int j=0; j<irData.size(); j++)
-    	{
-    		resultData[i+j] += soundData[i] * irData[j];//(irData[j] / (float) 32767.0);
-//    		for (int k=0; k<channels; k++)
-//    		{
-//    			resultData[i+j+k] += soundData[i+k] * irData[j+k];
-//    		}
-    	}
+//    	 memset() causes segfault? should be more efficient
+    	xcomplex[i] = 0.0;
+    	hcomplex[i] = 0.0;
     }
+
+    //even elements are real part, odds are imaginary part
+    for (int i=0; i<soundData.size(); i++)
+    {
+    	xcomplex[2*i] = soundData[i];
+    }
+    for (int i=0; i<irData.size(); i++)
+    {
+    	hcomplex[2*i] = irData[i];
+    }
+    cout << pow2 << endl;
+    cout << thatSize << endl;
+
+    four2(hcomplex, pow2);
+    four2(xcomplex, pow2);
+
+    double *ycomplex = new double[thatSize];
+    for(int i=0; i<pow2; i++)
+    {
+    	ycomplex[2*i] = (xcomplex[i] * hcomplex[i] - xcomplex[i+1] * hcomplex[i+1]);
+    	ycomplex[2*i+1] = (xcomplex[i+1] * hcomplex[i] - xcomplex[i] * hcomplex[i+1]);
+    }
+
+    four1(ycomplex, pow2);
 
 	writeWaveFileHeader(channels, frames, samplerate, outputFileStream);
     cout << "resultSize" << resultSize << endl;
 
     cout << "resultData.size()" << resultData.size() << endl;
-    for (int i=0; i<resultSize; i++)// soundInfo.channels)
+//    for (int i=0; i<resultSize; i++)// soundInfo.channels)
+	for (int i=0; i<pow2; i++)// soundInfo.channels)
     {
-    	if (resultData[i] < -1) resultData[i] = -1;
-		if (resultData[i] > 1) resultData[i] = 1;
-        fwriteShortLSB((short) (resultData[i]*32767), outputFileStream);
+//    	if (resultData[i] < -1) resultData[i] = -1;
+//		if (resultData[i] > 1) resultData[i] = 1;
+//        fwriteShortLSB((short) (resultData[i]*32767), outputFileStream);
+    	if (ycomplex[i] < -1) ycomplex[i] = -1;
+		if (ycomplex[i] > 1) ycomplex[i] = 1;
+        fwriteShortLSB((short) (ycomplex[i]*32767), outputFileStream);
     }
 
     fclose(outputFileStream);
