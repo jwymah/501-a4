@@ -1,0 +1,183 @@
+commit 08e3eeab01dd8a3515e3501fc204b49327f12c49
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 14:27:35 2015 -0700
+
+    cleaning up and adding additional versions of convolve
+
+commit c22ec4d11d7c22b4c3b864124890c2359c7ab7d0
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 14:20:03 2015 -0700
+
+    last optimization working on report
+
+commit 156c8f54c3320910fdeabae8e24e14b9c2f0f7dc
+Author: viruttalbox <jjmah@gmail>
+Date:   Tue Dec 8 14:00:53 2015 -0700
+
+    output for level 3 compiler optimization
+
+commit 657a441eb0bb8c84ce90aed4a8d4384327c9af00
+Author: viruttalbox <jjmah@gmail>
+Date:   Tue Dec 8 13:34:51 2015 -0700
+
+    outputs
+
+commit b0cddd8607b13ef0293128d748836e4b91f5970e
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 13:33:26 2015 -0700
+
+    changing 2^n to 2 << n
+
+commit 18e0faa39bbdd3b75ec7e9d25f848a5800e91cd2
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 13:06:03 2015 -0700
+
+    OPT 4. change nteger multiplication of 8 to bit shifting
+
+commit b8c39f9cf107efb4c039affc444e773b1766d23a
+Author: viruttalbox <jjmah@gmail>
+Date:   Tue Dec 8 12:57:30 2015 -0700
+
+    results for opt3
+
+commit 9819754d9aa04106a8117419901c24e3ca9c66de
+Merge: 73e8e7f b9cc764
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 12:54:31 2015 -0700
+
+    Merge branch 'master' of myGit:~/501/a4
+
+commit 73e8e7fc91bc5e2fc70b09114505bf38cac090ac
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 12:54:16 2015 -0700
+
+    optimization3, changing all integer multiplication by 2 to bit shifting
+
+commit ead2fd5bccb7979c95d2cd3c1d070be922ab1d9e
+Author: viruttalbox <jjmah@gmail>
+Date:   Tue Dec 8 12:41:46 2015 -0700
+
+    profoutout for opt2
+
+commit b9cc764d784360745b3ffe24e8cb111c2a70cf7a
+Author: viruttalbox <jjmah@gmail>
+Date:   Tue Dec 8 12:41:46 2015 -0700
+
+    profoutout for opt3
+
+commit 358bf9abb61a32052d8cf012baad177c6ea27a9a
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 12:40:05 2015 -0700
+
+    OPT 3 trying changing subtraction to addition of negative
+
+commit b58f1cb3ac91a25f15d7cdfaaa24a02d5efb3872
+Author: viruttalbox <jjmah@gmail>
+Date:   Tue Dec 8 12:24:40 2015 -0700
+
+    gprofoutput for memsetting
+
+commit 4a858dce421a9e2d85a02c08e3c83936c53fb8ba
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 12:09:39 2015 -0700
+
+    OPTim 2: changed zeroing out array to use memset instead of a for loop
+
+commit e67bb732cc010c7ecef4a6bb7328f56bf7d93126
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 12:06:56 2015 -0700
+
+    undoing last commit. did not work out
+
+commit 51e6189a7d6e9a77e0659020a754f277403f2571
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 11:49:07 2015 -0700
+
+    code opt 2: probs very small: removed istep variable, 1 less variable to write...
+
+commit 875e91923e7ed280f81dce8747f344f64ec8155f
+Merge: 539da7c 5e04455
+Author: viruttalbox <jjmah@gmail>
+Date:   Tue Dec 8 11:21:39 2015 -0700
+
+    Merge branch 'master' of myGit:501/a4
+
+commit 539da7cae729b80b46d9e66d56324b8e0b396c07
+Author: viruttalbox <jjmah@gmail>
+Date:   Tue Dec 8 11:19:25 2015 -0700
+
+    shidfdk
+
+commit 5e04455d3253cc589058fd16b7b1ff4ee679182d
+Author: viruttalbox <jjmah@gmail>
+Date:   Tue Dec 8 11:19:25 2015 -0700
+
+    dfdf
+
+commit 6436da91de90df442bc171f7e557d8618e412b71
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 10:58:23 2015 -0700
+
+    removing weird character
+
+commit f9844501af8769817728e01ef9fc7fcec519f1fa
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Dec 8 03:07:10 2015 -0700
+
+    have a fft in, results sounds like shit though
+
+commit 53a68f190c92539b40e870e680b246ac57a3759b
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Mon Dec 7 22:59:00 2015 -0700
+
+    adding fourier function
+    
+    BEFORE FOURIER:
+    frames=1046992
+    samplerate=44100
+    channels=1
+    num_items=1046992
+    Read 1046992 items
+    
+    frames=106599
+    samplerate=44100
+    channels=1
+    num_items=106599
+    Read 106599 items
+    
+    resultSize1153591
+    resultData.size()1153591
+    
+    real	15m31.189s
+    user	15m28.227s
+    sys	0m0.847s
+
+commit 2e9e8989b9b10143b2953d2523cdd994c7b39e0d
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Wed Dec 2 14:30:19 2015 -0700
+
+    changed to use doubles and normalize to [-1,1] when reading, convert to short on writing)
+
+commit 6aa9834124924388eeb4a6895cf22bf717d65197
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Wed Dec 2 13:11:22 2015 -0700
+
+    kind of works.. lots of distortion
+
+commit 9d412a44d9ada7daf1ad71380f2c57e0f216b8c5
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Nov 24 03:05:00 2015 -0700
+
+    reads from file into buffers
+
+commit c1ca7ed4c5ba1e096440984fa3d09d3d92c15d61
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Nov 24 01:30:38 2015 -0700
+
+    adding eclipse project files
+
+commit 56d7088d3c28f3e295b6b710586c6d0ff9fa633f
+Author: jeremy mah <jeremyw.mah@gmail.com>
+Date:   Tue Nov 24 00:48:57 2015 -0700
+
+    init
