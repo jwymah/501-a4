@@ -2,7 +2,7 @@ I am not including ALL versions of program.
 I am including the base program, the fft program, and the optimized fft.
 
 For regression testing, a diff is done on the produced convoluted .wav file with the wav file produced by the non-fft transform (tablaSlowConvolve.wav).
-This should be sufficient because regression testing is a 'functional' test, and we are doing optimizations which are supposed to not change the functionallity of the program. (much of time didnt work... oh well)
+This should be sufficient because regression testing is a 'functional' test, and we are doing optimizations which are supposed to not change the functionallity of the program.
 
 TUNING: 5 code optimizations and 1 compiler optimization
 
